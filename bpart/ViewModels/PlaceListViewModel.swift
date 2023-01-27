@@ -38,7 +38,11 @@ class PlaceListViewModel: ObservableObject {
                 print(error)
             } else if let response = response {
                 let mapItems = response.mapItems
-                print(mapItems)
+//                print(mapItems)
+//                self.landmarks = mapItems.map{
+//                    return LandmarkViewModel(placemark: $0.placemark)
+//                    
+//                }
             }
         }
     }
