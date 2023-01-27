@@ -35,7 +35,6 @@ struct FundingMapView: View {
 
             Map(coordinateRegion: getRegion(), interactionModes: .all, showsUserLocation: true, userTrackingMode: $userTrackingMode)
         }.padding()
-
     }
 }
 

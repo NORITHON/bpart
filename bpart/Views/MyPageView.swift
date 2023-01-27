@@ -9,7 +9,10 @@ import SwiftUI
 
 struct MyPageView: View {
     var body: some View {
-        Text("MyPage")
+        NavigationStack {
+            Text("MyPage")
+                .navigationTitle("MyPage")
+        }
     }
 }
 
