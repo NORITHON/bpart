@@ -6,5 +6,7 @@
 	<array>
 		<string>bpart/Shared/PretendardVariable</string>
 	</array>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string></string>
 </dict>
 </plist>
