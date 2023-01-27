@@ -12,7 +12,7 @@ class FirestoreFundingManager: ObservableObject {
     @Published var fundings: [Funding] = []
     
     init(){
-        fetchFunding()
+//        fetchFunding()
     }
     func fetchFunding(){
         fundings.removeAll()
@@ -28,30 +28,19 @@ class FirestoreFundingManager: ObservableObject {
                 for document in snapshot.documents{
                     let data = document.data()
                     
-                    
-                    let currentAmount = data["currentAmount"] as? Int ?? 0
-                    let targetAmount = data["targetAmount"] as? Int ?? 0
-                    let title = data["title"] as? String ?? ""
-                    let id = data["id"] as? String ?? ""
-                    let media = data["media"] as? String ?? ""
+//
+//                    let currentAmount = data["currentAmount"] as? Int ?? 0
+//                    let targetAmount = data["targetAmount"] as? Int ?? 0
+//                    let title = data["title"] as? String ?? ""
+//                    let id = data["id"] as? String ?? ""
+//                    let media = data["media"] as? String ?? ""
                     print(data)
-                    let funding = Funding(title: title, currentAmount: currentAmount, targetAmount: targetAmount, id: id,media: media)
-                    self.fundings.append(funding)
+//                    let funding = Funding(title: title, currentAmount: currentAmount, targetAmount: targetAmount, id: id,media: media)
+//                    self.fundings.append(funding)
                     
                     
                 }
             }
         }
     }
-//    func addDog(dogBreed: String){
-//        let db = Firestore.firestore()
-//        let ref = db.collection("dogs").document(dogBreed)
-//        ref.setData(["breed" : dogBreed, "id":999]){ error in
-//            if let error = error {
-//                print(error)
-//            }
-//
-//        }
-//    }
-    
 }
