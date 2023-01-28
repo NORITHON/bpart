@@ -7,10 +7,19 @@
 
 import SwiftUI
 
-struct ContentView: View {
-    var body: some View {
-        MainView()
 
+
+
+struct ContentView: View {
+    
+  
+    @State var pageState : String = "RegisterView"
+    
+    var body: some View {
+
+        MainView()
+        
+ 
     }
 }
 
@@ -19,3 +28,5 @@ struct ContentView_Previews: PreviewProvider {
         ContentView()
     }
 }
+
+

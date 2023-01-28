@@ -10,149 +10,176 @@ import SwiftUI
 struct HomeView: View {
     //    @EnvironmentObject var firestoreFundingManager: FirestoreFundingManager
     //    @State private var showPopUp = false
+    @State var selectedMenuIndex: Int = 0
     
-    @State var funding = Funding(title: "가나 교육사업 프로젝트", description: "\"저희 동네에도 학교가 지어졌지만,\n선생님이 안계셔서 공부를 할 수 없어요\"",currentAmount: 74, targetAmount: 100, id: "1111", media: "sample", milestones: [Milestone(what: "학교건설", who: "현대건설",isDone: true),Milestone(what: "기기지원", who: "Samsung",isDone: false),],participationCount: 262)
+    var menuIcons :[String] =  ["star","graduationcap","humidity","leaf","lock.rectangle.on.rectangle","wonsign.circle"]
+    var menuNames : [String] = ["추천","교육","식수시설","보건 및 식량","인권 보호","경제 성장"]
+    
+    let framewidth : CGFloat = 358
+    let frameheight : CGFloat = 277
+    
+    
+    //    @State var fundings: [String] = Funding.edu()
     
     init(){
+        //calling firebase
     }
     
     var body: some View {
-        NavigationStack {
+
+        NavigationView{
             ScrollView {
+                Spacer().frame(height: 1)
+                    .padding(.top, 1)
+                VStack(alignment: .leading) {
+                    Image("logo").resizable().frame(width: 60, height: 19.23).padding(EdgeInsets(top: 12, leading: 0, bottom: 0, trailing: 0))
+                    Spacer()
+                        .frame(height:20.77)
+                    Text("비파트님,").font(.customheading1)
+                    Spacer()
+                        .frame(height:13)
+                    Text("당신의 따듯한 후원 덕분에").font(.customheading1)
+                        .frame(height:13)
+                    Text("오늘 3개의 학교가 세워졌어요.").font(.customheading1)
+                    Spacer().frame(height:20.77)
+                        .frame(width: framewidth)
+                }
                 VStack(alignment: .leading){
-                    Image("logo").resizable().frame(width: 60, height: 19.23)
-                    Spacer()
-                    Text("비파트님,\n당신의 따듯한 후원 덕분에\n오늘 3개의 학교가 세워졌어요.").font(.customheading1)
-                    Spacer()
-                    
                     NavigationLink {
                         FundingResult()
                     } label: {
-                        Text("후원 결과 확인하기")
-                            .font(.body)
+                        Text("2023 후원 현황 확인하기")
+                        
+                            .font(.customhead4)
                             .foregroundColor(.teal)
-                            .padding(EdgeInsets(top: 0, leading: 8, bottom: 0, trailing: 8))
+                            .padding(EdgeInsets(top: 2, leading: 16, bottom: 2, trailing: 16))
                             .overlay(
                                 RoundedRectangle(cornerRadius: 30)
-                                    .stroke(Color.teal, lineWidth: 2)
-                            )
+                                    .stroke(Color.teal, lineWidth: 1)
+                            ).padding(4)
+                        
+                        
                     }
-                    
-                    Spacer()
-                    
+                    Spacer().frame(height:16)
                     HStack{
-                        VStack{
+                        ForEach(0..<6 ) { idx in
                             Button {
-                                //
+                                selectedMenuIndex = idx
                             } label: {
                                 VStack{
-                                    Image(systemName:"star")
-                                    Text("전체")
+                                    Image(systemName: menuIcons[idx])
+                                        .foregroundColor(idx == selectedMenuIndex ? .cyan : .gray)
+                                        .padding(2)
+                                    Text(menuNames[idx]).font(.menuTitle)
+                                        .foregroundColor(idx == selectedMenuIndex ? .cyan : .gray)
+                                    
                                 }
-                                VStack{
-                                    Image(systemName:"wonsign.circle")
-                                    Text("교육")
-                                }
+                                .padding(EdgeInsets(top: 0, leading: 7, bottom: 0, trailing: 7))
                             }
-
                         }
+
                     }
-                    //list of CARDS
                     
                     
-                    VStack(alignment: .leading){
-                        //imagegraph view
-                        ImageGraph(funding: self.$funding)
+                }
+                Group{
+                    switch selectedMenuIndex{
+                        //suggestive case
+                    case 0:
+                        Group{
+                            NavigationLink(destination: FundingDetailView()) {
+                                Image("edu1").resizable().frame(width: framewidth, height: frameheight)
+                            }
+                            
+                            NavigationLink(destination: FundingDetailView()) {
+                                Image("edu3").resizable().frame(width: framewidth, height: frameheight)
+                            }
+                            
+                            NavigationLink(destination: FundingDetailView()) {
+                                Image("econ1").resizable().frame(width: framewidth, height: frameheight)
+                            }
+                        }
                         
-                        //card
-                        HStack {
-                            VStack(alignment: .leading) {
-                                Text(funding.title).font(.title3)
-                                
-                                Text(funding.description).font(.custombody2)
-                                    .foregroundColor(.gray)
+                        
+                        
+                    case 1:
+                        NavigationLink(destination: FundingDetailView()) {
+                            Image("edu1").resizable().frame(width: framewidth, height: frameheight)
+                        }
+                        NavigationLink(destination: FundingDetailView()) {
+                            Image("edu2").resizable().frame(width: framewidth, height: frameheight)
+                        }
+                        NavigationLink(destination: FundingDetailView()) {
+                            Image("edu3").resizable().frame(width: framewidth, height: frameheight)
+                        }
+                        
+                    case 2:
+                        
+                        Group{
+                            NavigationLink(destination: FundingDetailView()) {
+                                Image("water1").resizable().frame(width: framewidth, height: frameheight)
                             }
-                            Spacer()
-                            VStack{
-                                Button {
-                                    //heart"
-                                } label: {
-                                    Image(systemName: "heart").foregroundColor(.teal)
-                                }
-                                Spacer()
-                                NavigationLink {
-                                    FundingDetailView()
-                                } label: {
-                                    Text("함께하기")
-                                        .font(.body)
-                                        .foregroundColor(.teal)
-                                        .padding(EdgeInsets(top: 0, leading: 8, bottom: 0, trailing: 8))
-                                        .overlay(
-                                            RoundedRectangle(cornerRadius: 30)
-                                                .stroke(Color.teal, lineWidth: 2)
-                                        )
-                                }
+                            NavigationLink(destination: FundingDetailView()) {
+                                Image("water2").resizable().frame(width: framewidth, height: frameheight)
+                            }
+                            NavigationLink(destination: FundingDetailView()) {
+                                Image("water3").resizable().frame(width: framewidth, height: frameheight)
                             }
                         }
-                    }
-                }
-                
-            }.padding()
-        }
-        
-    }
-    
-}
-
-struct ImageGraph: View {
-    
-    @Binding var funding : Funding
-    
-    var body: some View {
-        
-        ZStack(alignment: .bottomLeading){
-            Image(funding.media).resizable()
-                .frame(width: 348, height: 178)
-                .cornerRadius(8)
-            HStack{
-                ZStack{
-                    
-                    Rectangle().frame(width:60,height: 4).foregroundColor(.blue).offset(y:17).padding(12)
-                    
-                    HStack{
-                        ForEach(funding.milestones, id: \.self){ milestone in
-                            VStack{
-                                Text(milestone.what).foregroundColor(.white).font(.bargraphLarge)
-                                Text(milestone.who).foregroundColor(.white).font(.bargraphSmall)
-                                
-                                Image(systemName: "checkmark")
-                                    .foregroundColor(milestone.isDone ? .white : .blue)
-                                    .font(.bargraphLarge)
-                                    .padding(4)
-                                    .background(milestone.isDone ? .blue : .cyan)
-                                    .clipShape(Circle())
-                                
-                                
+                        
+                        
+                    case 3:
+                        Group{
+                            NavigationLink(destination: FundingDetailView()) {
+                                Image("food1").resizable().frame(width: framewidth, height: frameheight)
+                            }
+                            NavigationLink(destination: FundingDetailView()) {
+                                Image("food2").resizable().frame(width: framewidth, height: frameheight)
+                            }
+                            NavigationLink(destination: FundingDetailView()) {
+                                Image("food3").resizable().frame(width: framewidth, height: frameheight)
                             }
                         }
-                    }
-                    
-                }
+                        
+                        
+                    case 4:
+                        VStack{
+                            NavigationLink(destination: FundingDetailView()) {
+                                Image("right1").resizable().frame(width: framewidth, height: frameheight)
+                            }
+                            NavigationLink(destination: FundingDetailView()) {
+                                Image("right2").resizable().frame(width: framewidth, height: frameheight)
+                            }
+                            NavigationLink(destination: FundingDetailView()) {
+                                Image("right3").resizable().frame(width: framewidth, height: frameheight)
+                            }
+                        }
+                    case 5:
+                        VStack{
+                            NavigationLink(destination: FundingDetailView()) {
+                                Image("econ1").resizable().frame(width: framewidth, height: frameheight)
+                            }
+                            NavigationLink(destination: FundingDetailView()) {
+                                Image("econ2").resizable().frame(width: framewidth, height: frameheight)
+                            }
+                            NavigationLink(destination: FundingDetailView()) {
+                                Image("econ3").resizable().frame(width: framewidth, height: frameheight)
+                            }
+                        }
+                    default:
+                        Text("NO FUNDS")
+                    }//end of selectivemenu case
+                }//end of Group
                 
                 
-                
-                
-                Spacer()
-                Text("\(funding.participationCount)명이\n후원에 동참했어요")
-                    .font(.bargraphTitle).foregroundColor(.white)
-                    .padding(12)
-                    .multilineTextAlignment(.trailing)
-                
+                .frame(width: framewidth)
             }
         }
-        
     }
 }
+
+
+
 
 
 struct ListView_Previews: PreviewProvider {
@@ -160,3 +187,113 @@ struct ListView_Previews: PreviewProvider {
         HomeView()
     }
 }
+//
+//struct CardLists: View {
+//    @Binding var fundings: [Funding]
+//    var body: some View {
+//        ForEach(fundings, id: \.self) { funding in
+//            //        ForEach(0..<6){ idx in
+//            //add selected filtering
+//            VStack(alignment: .leading){
+//                //imagegraph view
+//                ZStack(alignment: .bottomLeading){
+//                    Image(funding.media).resizable()
+//                        .frame(width: .infinity, height: 178)
+//                        .cornerRadius(8)
+//
+//                    HStack{
+//                        VStack{
+//                            Text(funding.milestones[0].what).foregroundColor(.white).font(.bargraphLarge)
+//                            Text(funding.milestones[0].who).foregroundColor(.white).font(.bargraphSmall)
+//
+//                            Image(systemName: "checkmark")
+////                                .foregroundColor(funding.milestones[0].isDone ? .white : .blue)
+//                                .foregroundColor(.white)
+//                                .font(.bargraphLarge)
+//                                .padding(4)
+////                                .background(funding.milestones[0].isDone ? .blue : .cyan)
+//                                .background(.white)
+//                                .clipShape(Circle())
+//
+//
+//                        }
+//                        VStack{
+//                            Text(funding.milestones[1].what).foregroundColor(.white).font(.bargraphLarge)
+//                            Text(funding.milestones[1].who).foregroundColor(.white).font(.bargraphSmall)
+//
+//                            Image(systemName: "checkmark")
+////                                .foregroundColor(funding.milestones[1].isDone ? .white : .blue)
+//                                .foregroundColor(.blue)
+//                                .font(.bargraphLarge)
+//                                .padding(4)
+////                                .background(funding.milestones[1].isDone ? .blue : .cyan)
+//                                .background(.cyan)
+//                                .clipShape(Circle())
+//
+//
+//                        }
+//                        VStack{
+//                            Text(funding.milestones[2].what).foregroundColor(.white).font(.bargraphLarge)
+//                            Text(funding.milestones[2].who).foregroundColor(.white).font(.bargraphSmall)
+//                        }
+//
+//
+//                    }
+//
+//                }.background(.black.opacity(0.3))
+//
+//
+//                //card
+//                HStack {
+//                    VStack(alignment: .leading) {
+//                        Text(funding.title).font(.title3)
+//
+//                        Text(funding.description).font(.custombody2)
+//                            .foregroundColor(.gray)
+//                    }
+//                    Spacer()
+//                    VStack{
+//                        Button {
+//                            //                                        funding.isFavorite.toggle()
+//
+//                        } label: {
+//                            Image(systemName: funding.isFavorite ? "heart.fill" : "heart").foregroundColor(.teal)
+//                        }
+//                        Spacer()
+//                        NavigationLink {
+//                            FundingDetailView()
+//
+//
+//                        } label: {
+//                            Text("함께하기")
+//                                .font(.body)
+//                                .foregroundColor(.teal)
+//                                .padding(EdgeInsets(top: 0, leading: 8, bottom: 0, trailing: 8))
+//                                .overlay(
+//                                    RoundedRectangle(cornerRadius: 30)
+//                                        .stroke(Color.teal, lineWidth: 2)
+//                                )
+//                        }.padding(4)
+//                    }
+//                }
+//            }.padding(EdgeInsets(top: 10, leading: 0, bottom: 0, trailing: 0))
+//        }
+//    }
+//}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -9,9 +9,9 @@ import SwiftUI
 import Firebase
 @main
 struct bpartApp: App {
-    init() {
-        FirebaseApp.configure()
-    }
+//    init() {
+//        FirebaseApp.configure()
+//    }
     var body: some Scene {
         WindowGroup {
             ContentView()
